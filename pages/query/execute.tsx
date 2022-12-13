@@ -1,23 +1,34 @@
-import { Button, Stack } from "@mui/material";
+import { Box, Button, CircularProgress, Stack } from "@mui/material";
 import { NextPage } from "next";
+import Link from "next/link";
+import { useState } from "react";
 
 const ExecutePage: NextPage = () => {
-    return (
-        <div>
-            <span>Retrieved 52 results in 0.26 seconds.</span>
+    const [isReady, setIsReady] = useState(false);
+    setTimeout(() => setIsReady(true), 600);
 
-            <Stack spacing={2} direction="row">
-                <Button variant="contained" href="http://localhost:3000/results.json" download="queryResults.json">
-                    JSON
-                </Button>
-                <Button variant="contained">
-                    RDF
-                </Button>
-                <Button variant="contained">
-                    Instance Category
-                </Button>
-            </Stack>
-        </div>
+    return (
+        isReady
+            ? <div>
+                <span>Retrieved 16 results in 0.42 seconds.</span>
+
+                <Stack spacing={2} direction="row">
+                    <Button variant="contained">
+                        <Link href={'/query/results/json'}>
+                            JSON
+                        </Link>
+                    </Button>
+                    <Button variant="contained">
+                        RDF
+                    </Button>
+                    <Button variant="contained">
+                        Instance Category
+                    </Button>
+                </Stack>
+            </div>
+            : <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <CircularProgress size="5rem" />
+            </Box>
     );
 }
 

@@ -35,8 +35,7 @@ RETURN customer.name AS customerName, order.number AS orderNumber`,
   }
 },
 {
-  _id: 0,
-  number: 1,
+  _id: 1,
   productName: {
     "$getField": {
       field: "name",
@@ -68,8 +67,7 @@ FROM orders`,
   }
 },
 {
-  _id: 0,
-  number: 1,
+  _id: 1,
   productName: {
     "$getField": {
       field: "name",
