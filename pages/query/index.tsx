@@ -17,7 +17,7 @@ WHERE {
     ?order -23/21 ?customer .
     ?customer 3 ?customerName .
 
-    FILTER(?productName = "Lord of the Rings")
+    FILTER(?customerName != "Peter")
 }`;
 
 const QueryPage: NextPage = () => {

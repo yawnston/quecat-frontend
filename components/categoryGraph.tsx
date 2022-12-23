@@ -36,7 +36,7 @@ const elements_schema: ElementDefinition[] = [
     { data: { id: 'Cassandra101', label: undefined, parent: 'cassandra' }, position: { x: 0, y: 100 }, classes: 'group-placeholder' },
     { data: { id: 'Neo4j101', label: undefined, parent: 'neo4j' }, position: { x: 0, y: 100 }, classes: 'group-placeholder' },
 
-    { data: { id: '102', label: 'Name', parent: 'postgres' }, position: { x: 0, y: 200 }, classes: 'selection-root' },
+    { data: { id: '102', label: 'Name', parent: 'postgres' }, position: { x: 0, y: 200 }, classes: 'selection-root availability-ambiguous' },
     { data: { id: 'Neo4j102', label: undefined, parent: 'neo4j' }, position: { x: 0, y: 200 }, classes: 'group-placeholder' },
 
     { data: { id: '104', label: 'Surname', parent: 'postgres' }, position: { x: 100, y: 200 } },
@@ -56,7 +56,7 @@ const elements_schema: ElementDefinition[] = [
     { data: { id: '115', label: 'Name', parent: 'mongodb' }, position: { x: 500, y: -100 } },
     { data: { id: '117', label: 'Items', parent: 'mongodb' }, position: { x: 400, y: 100 }, classes: 'selection-selected' },
     { data: { id: '121', label: 'Product', parent: 'mongodb' }, position: { x: 400, y: 200 }, classes: 'selection-selected' },
-    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 500, y: 300 }, classes: 'selection-root availability-ambiguous' },
+    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 500, y: 300 }, classes: 'selection-root' },
     { data: { id: '122', label: 'Id', parent: 'mongodb' }, position: { x: 400, y: 300 } },
     { data: { id: '124', label: 'Price', parent: 'mongodb' }, position: { x: 500, y: 200 } },
 
@@ -85,13 +85,13 @@ const elements_query1: ElementDefinition[] = [
 
     // Nodes
     { data: { id: '100', label: 'Customer', parent: 'neo4j' }, position: { x: 100, y: 0 }, classes: 'selection-root' },
-    { data: { id: '102', label: 'Name', parent: 'neo4j' }, position: { x: 0, y: 0 }, classes: 'selection-root' },
+    { data: { id: '102', label: 'Name', parent: 'neo4j' }, position: { x: 0, y: 0 }, classes: 'selection-root availability-ambiguous' },
     { data: { id: '110', label: 'Orders', parent: 'neo4j' }, position: { x: 200, y: 0 }, classes: 'selection-selected' },
     { data: { id: '111', label: 'Order', parent: 'neo4j' }, position: { x: 300, y: 0 }, classes: 'selection-selected' },
     { data: { id: 'Mongodb111', label: undefined, parent: 'mongodb' }, position: { x: 300, y: 0 }, classes: 'group-placeholder' },
     { data: { id: '117', label: 'Items', parent: 'mongodb' }, position: { x: 300, y: 100 }, classes: 'selection-selected' },
     { data: { id: '121', label: 'Product', parent: 'mongodb' }, position: { x: 300, y: 200 }, classes: 'selection-selected' },
-    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 300, y: 300 }, classes: 'selection-root availability-ambiguous' },
+    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 300, y: 300 }, classes: 'selection-root' },
 
     // Edges
     { data: { source: '100', target: '102', label: '3' } },
@@ -112,13 +112,13 @@ const elements_query2: ElementDefinition[] = [
     // Nodes
     { data: { id: '100', label: 'Customer', parent: 'cassandra' }, position: { x: 0, y: 0 }, classes: 'selection-root' },
     { data: { id: 'Postgres100', label: undefined, parent: 'postgres' }, position: { x: 0, y: 0 }, classes: 'group-placeholder' },
-    { data: { id: '102', label: 'Name', parent: 'postgres' }, position: { x: 0, y: 100 }, classes: 'selection-root' },
+    { data: { id: '102', label: 'Name', parent: 'postgres' }, position: { x: 0, y: 100 }, classes: 'selection-root availability-ambiguous' },
     { data: { id: '110', label: 'Orders', parent: 'cassandra' }, position: { x: 100, y: 0 }, classes: 'selection-selected' },
     { data: { id: '111', label: 'Order', parent: 'cassandra' }, position: { x: 200, y: 0 }, classes: 'selection-selected' },
     { data: { id: 'Mongodb111', label: 'Order', parent: 'mongodb' }, position: { x: 200, y: 0 }, classes: 'group-placeholder' },
     { data: { id: '117', label: 'Items', parent: 'mongodb' }, position: { x: 200, y: 100 }, classes: 'selection-selected' },
     { data: { id: '121', label: 'Product', parent: 'mongodb' }, position: { x: 200, y: 200 }, classes: 'selection-selected' },
-    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 200, y: 300 }, classes: 'selection-root availability-ambiguous' },
+    { data: { id: '123', label: 'Name', parent: 'mongodb' }, position: { x: 200, y: 300 }, classes: 'selection-root' },
 
     // Edges
     { data: { source: '100', target: '102', label: '3' } },

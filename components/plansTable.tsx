@@ -28,64 +28,22 @@ export const recalculatedPlanCosts = [
 export const getPlansTableRows = () => [
     createData('268ca404-09ba-4b3b-9584-0ba6ceb8c408', planCosts[0], ['Neo4j', 'MongoDB'], true, [
         `MATCH (customer:Customer)-[:ORDERED]->(order:Order)
+WHERE customer.name <> "Peter"
 RETURN customer.name AS customerName, order.number AS orderNumber`,
-        `db.order.find({
-  items: {
-    name: "Lord of the Rings"
-  }
-},
-{
+        `db.order.find({}, {
   _id: 1,
-  productName: {
-    "$getField": {
-      field: "name",
-      input: {
-        "$first": {
-          "$filter": {
-            input: "$items",
-            cond: {
-              $eq: [
-                "$$this.name",
-                "Lord of the Rings"
-              ]
-            }
-          }
-        }
-      }
-    }
-  }
+  "items.name": 1
 })`,
     ]),
     createData('b158d3d9-034b-407c-98cb-ac3d9ccf88ab', planCosts[1], ['PostgreSQL', 'Cassandra', 'MongoDB'], false, [
         `SELECT id, name
-FROM customer`,
+FROM customer
+WHERE name != 'Peter'`,
         `SELECT customer_id, order_number
 FROM orders`,
-        `db.order.find({
-  items: {
-    name: "Lord of the Rings"
-  }
-},
-{
+        `db.order.find({}, {
   _id: 1,
-  productName: {
-    "$getField": {
-      field: "name",
-      input: {
-        "$first": {
-          "$filter": {
-            input: "$items",
-            cond: {
-              $eq: [
-                "$$this.name",
-                "Lord of the Rings"
-              ]
-            }
-          }
-        }
-      }
-    }
-  }
+  "items.name": 1
 })`,
     ]),
 ];
