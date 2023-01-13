@@ -5,12 +5,12 @@ import { useState } from "react";
 
 const ExecutePage: NextPage = () => {
     const [isReady, setIsReady] = useState(false);
-    setTimeout(() => setIsReady(true), 600);
+    setTimeout(() => setIsReady(true), 100);
 
     return (
         isReady
             ? <div>
-                <span>Retrieved 16 results in 0.42 seconds.</span>
+                <span>Retrieved 2 results in 0.03 seconds.</span>
 
                 <Stack spacing={2} direction="row">
                     <Button variant="contained">

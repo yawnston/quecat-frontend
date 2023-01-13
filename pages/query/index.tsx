@@ -24,20 +24,20 @@ const defaultQuery: string =
 `SELECT {
     ?legalEntity legalName ?legalNameValue ;
         addressArea ?addressAreaValue ;
-        postNameCity ?postNameValue .
+        postName ?postNameValue .
 }
 WHERE {
-    ?legalEntity 1/5/4/3 ?legalEntityBase .
-    ?legalEntityBase 29 ?legalName ;
-        11 ?addressArea ;
-        15 ?postNameCity .
+    ?legalEntity 25 ?address ;
+        4 ?legalName .
+    ?address 9 ?addressArea ;
+        13 ?postName .
 
-    ?legalName 27 "cs" ;
-        28 ?legalNameValue .
-    ?addressArea 9 "cs" ;
-        10 ?addressAreaValue .
-    ?postNameCity 13 "cs" ;
-        14 ?postNameValue .
+    ?legalName 2 "cs" ;
+        3 ?legalNameValue .
+    ?addressArea 7 "cs" ;
+        9 ?addressAreaValue .
+    ?postName 11 "cs" ;
+        12 ?postNameValue .
 }`;
 
 const QueryPage: NextPage = () => {
