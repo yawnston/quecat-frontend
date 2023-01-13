@@ -5,7 +5,7 @@ import CategoryGraph, { ContentKind } from "../../components/categoryGraph";
 import { SchemaCategory, SchemaObject } from "../../models/schemaCategory";
 
 const schemaCategory: SchemaCategory = new SchemaCategory([new SchemaObject(1, 'Customer', [])], []);
-const defaultQuery: string = 
+const defaultQueryOld: string = 
 `SELECT {
     ?customer ordered ?productName ;
         name ?customerName .
@@ -18,6 +18,26 @@ WHERE {
     ?customer 3 ?customerName .
 
     FILTER(?customerName != "Peter")
+}`;
+
+const defaultQuery: string = 
+`SELECT {
+    ?legalEntity legalName ?legalNameValue ;
+        addressArea ?addressAreaValue ;
+        postNameCity ?postNameValue .
+}
+WHERE {
+    ?legalEntity 1/5/4/3 ?legalEntityBase .
+    ?legalEntityBase 29 ?legalName ;
+        11 ?addressArea ;
+        15 ?postNameCity .
+
+    ?legalName 27 "cs" ;
+        28 ?legalNameValue .
+    ?addressArea 9 "cs" ;
+        10 ?addressAreaValue .
+    ?postNameCity 13 "cs" ;
+        14 ?postNameValue .
 }`;
 
 const QueryPage: NextPage = () => {

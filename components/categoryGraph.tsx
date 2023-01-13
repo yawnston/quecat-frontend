@@ -20,7 +20,7 @@ type CategoryGraphProps = {
 //  - there is not much redundancy in the Unibench model
 //  - the model is not that well specified (IMO)
 //  - I would need to transform the model to category representation
-const elements_schema: ElementDefinition[] = [
+const elements_schema_old: ElementDefinition[] = [
     // Databases
     { data: { id: 'mongodb', label: 'MongoDB' }, classes: 'group group-1' },
     { data: { id: 'cassandra', label: 'Cassandra' }, classes: 'group group-2' },
@@ -127,6 +127,94 @@ const elements_query2: ElementDefinition[] = [
     { data: { source: '117', target: '111', label: '36' } },
     { data: { source: '117', target: '121', label: '39' } },
     { data: { source: '121', target: '123', label: '49' } },
+];
+
+const elements_schema: ElementDefinition[] = [
+    // Databases
+    { data: { id: 'mongodb', label: 'MongoDB' }, classes: 'group group-1' },
+    { data: { id: 'postgres', label: 'PostgreSQL' }, classes: 'group group-3' },
+
+    // Nodes
+    { data: { id: 'owlThing', label: 'owl:Thing', parent: 'postgres' }, position: { x: 100, y: 100 }, classes: 'selection-selected' },
+    { data: { id: 'mongoOwlThing', label: undefined, parent: 'mongodb' }, position: { x: 100, y: 100 }, classes: 'group-placeholder' },
+
+    { data: { id: 'legalEntity', label: 'Legal Entity', parent: 'mongodb' }, position: { x: 800, y: 100 }, classes: 'selection-root' },
+    { data: { id: 'identifier', label: 'Identifier', parent: 'mongodb' }, position: { x: 450, y: 100 } },
+    { data: { id: 'organization', label: 'Organization', parent: 'mongodb' }, position: { x: 800, y: 0 } },
+    { data: { id: 'foundingDate', label: 'FoundingDate', parent: 'postgres' }, position: { x: 800, y: -100 } },
+    { data: { id: 'mongoFoundingDate', label: undefined, parent: 'mongodb' }, position: { x: 800, y: -100 }, classes: 'group-placeholder' },
+    { data: { id: 'formalOrganization', label: 'Formal Organization', parent: 'mongodb' }, position: { x: 650, y: 0 }, classes: 'selection-selected' },
+    { data: { id: 'isaOrganization', label: 'Organization', parent: 'mongodb' }, position: { x: 450, y: 0 }, classes: 'selection-selected' },
+    { data: { id: 'blankOrganization', label: '', parent: 'mongodb' }, position: { x: 300, y: 0 }, classes: 'selection-selected' },
+
+    { data: { id: 'address', label: 'Address', parent: 'postgres' }, position: { x: 350, y: 150 } },
+
+    { data: { id: 'addressArea', label: 'address area', parent: 'mongodb' }, position: { x: 300, y: 300 }, classes: 'selection-selected' },
+    { data: { id: 'addressAreaLang', label: '_language', parent: 'mongodb' }, position: { x: 350, y: 400 }, classes: 'selection-selected availability-ambiguous' },
+    { data: { id: 'addressAreaValue', label: '_value', parent: 'postgres' }, position: { x: 250, y: 400 }, classes: 'selection-root' },
+    { data: { id: 'mongoAddressAreaValue', label: undefined, parent: 'mongodb' }, position: { x: 250, y: 400 }, classes: 'group-placeholder' },
+
+    { data: { id: 'postCode', label: 'post code', parent: 'mongodb' }, position: { x: 200, y: 300 } },
+
+    { data: { id: 'postNameCity', label: 'post name (city)', parent: 'mongodb' }, position: { x: 100, y: 300 }, classes: 'selection-selected' },
+    { data: { id: 'postNameCityLang', label: '_language', parent: 'mongodb' }, position: { x: 150, y: 400 }, classes: 'selection-selected availability-ambiguous' },
+    { data: { id: 'postNameCityValue', label: '_value', parent: 'mongodb' }, position: { x: 50, y: 400 }, classes: 'selection-root' },
+
+    { data: { id: 'adminLevel1', label: 'administrative unit level 1 (country)', parent: 'mongodb' }, position: { x: -100, y: 200 } },
+    { data: { id: 'adminLevel1Lang', label: '_language', parent: 'mongodb' }, position: { x: -50, y: 300 } },
+    { data: { id: 'adminLevel1Value', label: '_value', parent: 'postgres' }, position: { x: -150, y: 300 } },
+    { data: { id: 'mongoAdminLevel1Value', label: undefined, parent: 'mongodb' }, position: { x: -150, y: 300 }, classes: 'group-placeholder' },
+
+    { data: { id: 'adminLevel2', label: 'administrative unit level 2 (country/region/state)', parent: 'mongodb' }, position: { x: -100, y: -100 } },
+    { data: { id: 'adminLevel2Lang', label: '_language', parent: 'mongodb' }, position: { x: -50, y: -200 } },
+    { data: { id: 'adminLevel2Value', label: '_value', parent: 'postgres' }, position: { x: -150, y: -200 } },
+    { data: { id: 'mongoAdminLevel2Value', label: undefined, parent: 'mongodb' }, position: { x: -150, y: -200 }, classes: 'group-placeholder' },
+
+    { data: { id: 'thoroughfare', label: 'thoroughfare', parent: 'mongodb' }, position: { x: 100, y: -200 } },
+    { data: { id: 'thoroughfareLang', label: '_language', parent: 'mongodb' }, position: { x: 150, y: -300 } },
+    { data: { id: 'thoroughfareValue', label: '_value', parent: 'postgres' }, position: { x: 50, y: -300 } },
+    { data: { id: 'mongoThoroughfareValue', label: undefined, parent: 'mongodb' }, position: { x: 50, y: -300 }, classes: 'group-placeholder' },
+
+    { data: { id: 'legalName', label: 'legal name', parent: 'mongodb' }, position: { x: 300, y: -200 }, classes: 'selection-selected' },
+    { data: { id: 'legalNameLang', label: '_language', parent: 'mongodb' }, position: { x: 350, y: -300 }, classes: 'selection-selected availability-ambiguous' },
+    { data: { id: 'legalNameValue', label: '_value', parent: 'mongodb' }, position: { x: 250, y: -300 }, classes: 'selection-root' },
+
+    { data: { id: 'notation', label: 'notation', parent: 'mongodb' }, position: { x: -300, y: 100 } },
+    { data: { id: 'locator', label: 'locator designator', parent: 'mongodb' }, position: { x: -300, y: 0 } },
+
+
+    // Edges
+    { data: { source: 'legalEntity', target: 'formalOrganization', label: '1 - #isa' } },
+    { data: { source: 'legalEntity', target: 'organization', label: '2 - #isa' } },
+    { data: { source: 'blankOrganization', target: 'owlThing', label: '3 - #isa' } },
+    { data: { source: 'isaOrganization', target: 'blankOrganization', label: '4 - #isa' } },
+    { data: { source: 'formalOrganization', target: 'isaOrganization', label: '5 - #isa' } },
+    { data: { source: 'identifier', target: 'owlThing', label: '6 - #isa' } },
+    { data: { source: 'address', target: 'owlThing', label: '7 - #isa' } },
+    { data: { source: 'organization', target: 'foundingDate', label: '8' } },
+    { data: { source: 'addressArea', target: 'addressAreaLang', label: '9' } },
+    { data: { source: 'addressArea', target: 'addressAreaValue', label: '10' } },
+    { data: { source: 'owlThing', target: 'addressArea', label: '11' } },
+    { data: { source: 'owlThing', target: 'postCode', label: '12' } },
+    { data: { source: 'postNameCity', target: 'postNameCityLang', label: '13' } },
+    { data: { source: 'postNameCity', target: 'postNameCityValue', label: '14' } },
+    { data: { source: 'owlThing', target: 'postNameCity', label: '15' } },
+    { data: { source: 'owlThing', target: 'locator', label: '16' } },
+    { data: { source: 'adminLevel1', target: 'adminLevel1Lang', label: '17' } },
+    { data: { source: 'adminLevel1', target: 'adminLevel1Value', label: '18' } },
+    { data: { source: 'owlThing', target: 'adminLevel1', label: '19' } },
+    { data: { source: 'adminLevel2', target: 'adminLevel2Lang', label: '20' } },
+    { data: { source: 'adminLevel2', target: 'adminLevel2Value', label: '21' } },
+    { data: { source: 'owlThing', target: 'adminLevel2', label: '22' } },
+    { data: { source: 'thoroughfare', target: 'thoroughfareLang', label: '23' } },
+    { data: { source: 'thoroughfare', target: 'thoroughfareValue', label: '24' } },
+    { data: { source: 'owlThing', target: 'thoroughfare', label: '25' } },
+    { data: { source: 'owlThing', target: 'notation', label: '26' } },
+    { data: { source: 'legalName', target: 'legalNameLang', label: '27' } },
+    { data: { source: 'legalName', target: 'legalNameValue', label: '28' } },
+    { data: { source: 'owlThing', target: 'legalName', label: '29' } },
+    { data: { source: 'owlThing', target: 'owlThing', label: '30 - registered address' } },
+    { data: { source: 'legalEntity', target: 'identifier', label: '31 - Identifier' } },
 ];
 
 const CategoryGraph = (props: CategoryGraphProps) => {
