@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CategoryGraph, { ContentKind } from "../../components/categoryGraph";
 import { SchemaCategory, SchemaObject } from "../../models/schemaCategory";
+import useDebounce from "../../utils/debounceHook";
 
 const schemaCategory: SchemaCategory = new SchemaCategory([new SchemaObject(1, 'Customer', [])], []);
 const defaultQuery: string =
@@ -25,11 +26,72 @@ WHERE {
     FILTER(?customerName = "Alice")
 }`;
 
+const dbObjectInfos = [
+    {
+        key: 2,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["1", "2"]
+    },
+    {
+        key: 3,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["2"]
+    },
+    {
+        key: 6,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["2"]
+    },
+    {
+        key: 9,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["2"]
+    },
+    {
+        key: 11,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["1"]
+    },
+    {
+        key: 13,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["1"]
+    },
+    {
+        key: 17,
+        is_in_projection: false,
+        is_in_query: false,
+        is_in_filter: false,
+        is_in_aggregation: false,
+        database_ids: ["1"]
+    }
+];
+
 const QueryPage: NextPage = () => {
     const { push } = useRouter();
     const [queryText, setQueryText] = useState(defaultQuery);
+    const queryTextDebounce = useDebounce(queryText, 1000);
+    const [objectInfos, setObjectInfos] = useState(dbObjectInfos);
+
     const handleInputChange = (event: any) => {
-        console.log(event.target.value);
         setQueryText(event.target.value);
     };
 
@@ -66,12 +128,32 @@ const QueryPage: NextPage = () => {
         push(`/query/explain?resultid=${result['id']}`);
     };
 
+    useEffect(() => {
+        fetch("http://localhost:8000/query/objectinfo", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: JSON.stringify({
+                query_string: queryText
+            })
+        }).then(x => x.json()).then(x => {
+            if (!(x.infos[0])) {
+                setObjectInfos([...dbObjectInfos]);
+            } else {
+                setObjectInfos([...dbObjectInfos, ...x.infos[0].object_info]);
+            }
+        });
+    }, [queryTextDebounce]);
+
     return (
         <>
             <Box sx={{ flexGrow: 1, height: '100%' }}>
                 <Grid container columnSpacing={2} sx={{ height: '100%' }}>
                     <Grid item xs={6}>
-                        <CategoryGraph schemaCategory={schemaCategory} contentKind={ContentKind.Schema} />
+                        <CategoryGraph schemaCategory={schemaCategory}
+                            contentKind={ContentKind.Schema} objectInfos={objectInfos} />
                     </Grid>
                     <Grid item xs={6}>
                         <Grid container height={'100%'} flexDirection={'column'}

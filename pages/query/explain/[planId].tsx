@@ -2,19 +2,28 @@ import { Box, Button, Grid, Stack, TextField } from "@mui/material";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import CategoryGraph, { ContentKind } from "../../../components/categoryGraph";
-import { planCosts, getPlansTableRows, recalculatedPlanCosts } from "../../../components/plansTable";
+import { planCosts, recalculatedPlanCosts, getRowsFromData } from "../../../components/plansTable";
 
 const PlanExplainPage: NextPage = () => {
     const router = useRouter();
     const { planId } = router.query;
-    const contentKind = planId === '268ca404-09ba-4b3b-9584-0ba6ceb8c408'
-        ? ContentKind.Query1
-        : ContentKind.Query2;
-    const planDetails = getPlansTableRows().find(x => x.planId === planId);
-    const planIndex = getPlansTableRows().findIndex(x => x.planId === planId);
     const [_ignored, forceUpdate] = useReducer(x => x + 1, 0);
+
+    const [plans, setPlans] = useState(undefined);
+    useEffect(() => {
+        const response = fetch(`http://localhost:8000/query/plans/${planId.slice(0, -2)}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json'
+            }
+        });
+        response.then((x) => x.json()).then((responseJson) => { console.log(responseJson); setPlans(responseJson) });
+    }, []);
+
+    const planDetails = getRowsFromData(plans).find(x => x.planId === planId);
+    const planIndex = getRowsFromData(plans).findIndex(x => x.planId === planId);
 
     const rightGridItems = [];
     rightGridItems.push(
@@ -27,13 +36,13 @@ const PlanExplainPage: NextPage = () => {
             </div>
         </Grid>
     );
-    planDetails?.databases.forEach((databaseName, index) => {
+    planDetails?.queries.forEach((query, index) => {
         rightGridItems.push(
             <Grid item width={'100%'}>
-                <TextField label={databaseName} defaultValue={planDetails?.queries[index]}
+                <TextField label={`Query ${index}`} defaultValue={query}
                     multiline fullWidth spellCheck={false}
-                    maxRows={planId === '268ca404-09ba-4b3b-9584-0ba6ceb8c408' ? 12 : 7}
-                    minRows={planId === '268ca404-09ba-4b3b-9584-0ba6ceb8c408' ? 12 : 7}
+                    maxRows={7}
+                    minRows={7}
                 />
             </Grid>
         );
@@ -64,7 +73,8 @@ const PlanExplainPage: NextPage = () => {
             <Box sx={{ flexGrow: 1, height: '100%' }}>
                 <Grid container columnSpacing={2} sx={{ height: '100%' }}>
                     <Grid item xs={6}>
-                        <CategoryGraph schemaCategory={undefined} contentKind={contentKind} />
+                        <CategoryGraph schemaCategory={undefined} contentKind={ContentKind.Schema}
+                            objectInfos={planDetails?.objectInfos} />
                     </Grid>
                     <Grid item xs={6}>
                         <Grid container height={'100%'} flexDirection={'column'}

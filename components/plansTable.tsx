@@ -49,14 +49,15 @@ FROM orders`,
 ];
 
 
-const getRowsFromData = (planInfos) => {
+export const getRowsFromData = (planInfos) => {
     if (planInfos) {
         return planInfos.infos.map((info, index) => ({
             planId: `${planInfos.id}_${index}`,
             cost: info.plan.cost,
             databases: [],
             isDefault: false,
-            queries: info.plan.compiled
+            queries: info.plan.compiled,
+            objectInfos: info.object_info
         }));
     }
     return [];
