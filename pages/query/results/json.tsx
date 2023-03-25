@@ -1,5 +1,7 @@
 import { TextField } from "@mui/material";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const jsonResults = `{ name: "Anne", ordered: ["The Da Vinci Code","Angels and Demons","Twilight","Digital Fortress"] }
 { name: "Erica", ordered: ["One Day","Atonement","Harry Potter and the Deathly Hallows"] }
@@ -20,10 +22,21 @@ const jsonResults = `{ name: "Anne", ordered: ["The Da Vinci Code","Angels and D
 `;
 
 const JsonResultsPage: NextPage = () => {
+    const router = useRouter();
+    const [result, setResult] = useState(undefined);
+    useEffect(() => {
+        const response = fetch(`http://localhost:8000/query/${router.query.resultid}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json'
+            }
+        });
+        response.then((x) => x.json()).then((responseJson) => { setResult(responseJson) });
+    }, [router.query.resultid]);
 
     return (
         <div>
-            <TextField label="JSON results" defaultValue={jsonResults}
+            <TextField label="JSON results" value={result?.results.map(x => JSON.stringify(x)).join('\n')}
                 multiline fullWidth spellCheck={false}
             />
         </div>

@@ -19,10 +19,10 @@ function createData(
 }
 
 export const planCosts = [
-  441, 829
+    441, 829
 ];
 export const recalculatedPlanCosts = [
-  350, 625
+    350, 625
 ];
 
 export const getPlansTableRows = () => [
@@ -48,7 +48,24 @@ FROM orders`,
     ]),
 ];
 
-export default function PlansTable() {
+
+const getRowsFromData = (planInfos) => {
+    if (planInfos) {
+        return planInfos.infos.map((info, index) => ({
+            planId: `${planInfos.id}_${index}`,
+            cost: info.plan.cost,
+            databases: [],
+            isDefault: false,
+            queries: info.plan.compiled
+        }));
+    }
+    return [];
+};
+
+
+export default function PlansTable(props) {
+    const rows = getRowsFromData(props.planInfo);
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="execution plans table">
@@ -61,7 +78,7 @@ export default function PlansTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {getPlansTableRows().map((row) => (
+                    {rows.map((row) => (
                         <TableRow
                             key={row.planId}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
