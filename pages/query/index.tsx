@@ -2,7 +2,6 @@
 
 import { Box, Button, Grid, Stack, TextField } from "@mui/material";
 import { NextPage } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CategoryGraph, { ContentKind } from "../../components/categoryGraph";
@@ -12,18 +11,22 @@ import useDebounce from "../../utils/debounceHook";
 const schemaCategory: SchemaCategory = new SchemaCategory([new SchemaObject(1, 'Customer', [])], []);
 const defaultQuery: string =
     `SELECT {
-    ?order orderId ?orderId ;
-        customerName ?customerName ;
-        customerSurname ?customerSurname .
+    ?order itemId ?itemId ;
+        status ?status ;
+        customerName ?name ;
+        city ?city .
 }
 WHERE {
-    ?customer -9 ?order ;
-        2 ?customerName ;
-        3 ?customerSurname .
+    ?order 10 ?id ;
+        11 ?status ;
+        12/14 ?itemId ;
+        9 ?customer .
 
-    ?order 10 ?orderId .
+    ?customer 2 ?name ;
+        4/7 ?city .
 
-    FILTER(?customerName = "Alice")
+    FILTER(?name = "Alice")
+    VALUES ?status {"completed", "shipped"}
 }`;
 
 const dbObjectInfos = [
@@ -41,7 +44,7 @@ const dbObjectInfos = [
         is_in_query: false,
         is_in_filter: false,
         is_in_aggregation: false,
-        database_ids: ["2"]
+        database_ids: ["1", "2"]
     },
     {
         key: 6,

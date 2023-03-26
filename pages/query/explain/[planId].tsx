@@ -13,7 +13,8 @@ const PlanExplainPage: NextPage = () => {
 
     const [plans, setPlans] = useState(undefined);
     useEffect(() => {
-        const response = fetch(`http://localhost:8000/query/plans/${planId.slice(0, -2)}`, {
+        const [planInfoId, planNumber] = planId.split('_');
+        const response = fetch(`http://localhost:8000/query/plans/${planInfoId}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json'
