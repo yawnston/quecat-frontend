@@ -1,3 +1,4 @@
+'use client';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 const CytoscapeComponent = dynamic(() => import('react-cytoscapejs'), { ssr: false });
@@ -39,8 +40,7 @@ const addElementMetadata = (elements: ElementDefinition[], objectInfos: SchemaOb
     }
 
     for (const obj of objectInfos) {
-        console.log(obj);
-        const elem = elements.find(x => x.data.id === obj.key.toString());
+        const elem = elementsCopy.find(x => x.data.id === obj.key.toString());
 
         let style = '';
         if (obj.is_in_projection) {
@@ -59,7 +59,7 @@ const addElementMetadata = (elements: ElementDefinition[], objectInfos: SchemaOb
         elem!.classes = style;
 
         for (const db of obj.database_ids) {
-            elements.push(
+            elementsCopy.push(
                 {
                     data: { id: `${elem!.data.id}_${db}`, parent: DB_NAMES[db] },
                     position: elem!.position,
@@ -184,7 +184,7 @@ const CategoryGraph = (props: CategoryGraphProps) => {
 
     elements = addElementMetadata(elements, props.objectInfos);
 
-    console.error('Redrawing')
+    console.log('Redrawing');
 
     useEffect(() => {
         // We have to check if cytoscape is already destroyed, otherwise it throws an error
@@ -192,17 +192,20 @@ const CategoryGraph = (props: CategoryGraphProps) => {
             // TODO: Uncomment this when implementing with real data
             // props.schemaCategory.renderToCytoscape(cy);
             cy.fit();
-            cy.json(elements);
         }
-    });
+    }, [cy, props]);
 
-    return <CytoscapeComponent id="cy"
-        elements={[...elements]}
-        style={{ width: '100%', height: '100%', borderWidth: '2px', borderColor: 'black', borderStyle: 'solid' }}
-        stylesheet={cytoscapeStylesheet}
-        autoungrabify={true}
-        cy={cy => { setCy(cy) }}
-    />;
+    return <>
+        {props.objectInfos &&
+            <CytoscapeComponent id="cy"
+                elements={elements}
+                style={{ width: '100%', height: '100%', borderWidth: '2px', borderColor: 'black', borderStyle: 'solid' }}
+                stylesheet={cytoscapeStylesheet}
+                autoungrabify={true}
+                cy={cy => { setCy(cy) }}
+            />
+        }
+    </>;
 }
 
 export default CategoryGraph

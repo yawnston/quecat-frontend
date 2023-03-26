@@ -25,6 +25,20 @@ const PlanExplainPage: NextPage = () => {
     const planDetails = getRowsFromData(plans).find(x => x.planId === planId);
     const planIndex = getRowsFromData(plans).findIndex(x => x.planId === planId);
 
+    const handleExecute = async () => {
+        console.error(planId);
+        const response = await fetch(`http://localhost:8000/query/execute/${planId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+        });
+
+        const result = await response.json();
+        router.push(`/query/execute?resultid=${result['id']}`);
+    };
+
     const rightGridItems = [];
     rightGridItems.push(
         <Grid item>
@@ -50,8 +64,8 @@ const PlanExplainPage: NextPage = () => {
     rightGridItems.push(
         <Grid item>
             <Stack spacing={2} direction="row">
-                <Button variant="contained">
-                    <Link href={'/query/execute'}>Execute plan</Link>
+                <Button variant="contained" onClick={handleExecute}>
+                    Execute plan
                 </Button>
                 <Button variant="outlined" onClick={() => {
                     planCosts[planIndex] = recalculatedPlanCosts[planIndex];
