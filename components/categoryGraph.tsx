@@ -27,7 +27,7 @@ type CategoryGraphProps = {
     objectInfos: SchemaObjectInfo[]
 }
 
-const DB_NAMES: { [databaseId: string]: string } = {
+export const DB_NAMES: { [databaseId: string]: string } = {
     '1': 'mongodb',
     '2': 'postgres'
 }

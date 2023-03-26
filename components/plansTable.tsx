@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
+import { DB_NAMES } from './categoryGraph';
 
 function createData(
     planId: string,
@@ -51,14 +52,18 @@ FROM orders`,
 
 export const getRowsFromData = (planInfos) => {
     if (planInfos) {
-        return planInfos.infos.map((info, index) => ({
-            planId: `${planInfos.id}_${index}`,
-            cost: info.plan.cost,
-            databases: [],
-            isDefault: false,
-            queries: info.plan.compiled,
-            objectInfos: info.object_info
-        }));
+        return planInfos.infos.map((info, index) => {
+            const databaseIds = [... new Set(info.object_info.flatMap(x => x.database_ids))];
+
+            return {
+                planId: `${planInfos.id}_${index}`,
+                cost: info.plan.cost,
+                databases: databaseIds.map(x => DB_NAMES[x]),
+                isDefault: false,
+                queries: info.plan.compiled,
+                objectInfos: info.object_info
+            };
+        });
     }
     return [];
 };
