@@ -22,7 +22,7 @@ const ExecutePage: NextPage = () => {
     return (
         isReady
             ? <div>
-                <span>Retrieved {result?.results?.length} results in 0.42 seconds.</span>
+                <span>Retrieved {result?.results?.length} results in {result?.seconds_elapsed?.toFixed(2)} seconds.</span>
 
                 <Stack spacing={2} direction="row">
                     <Button variant="contained">
